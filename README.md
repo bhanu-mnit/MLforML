@@ -17,3 +17,12 @@ Step by step how I wish to proceed on this project are enumerated below:
 - Model Selection
 - All of these techniques have to be iterated for different combinations of techniques, brute in the smarting but eventually it should be smart selection of the combinations.
 
+# Files
+- MLforML.py is the main file. 
+- MLforML.ipynb for playing around with data in-between while model building and for visualization. 
+
+# Library Pre-requisites
+- Scikit (scipy - sklearn)
+- Pandas
+- numpy
+- seaborn
