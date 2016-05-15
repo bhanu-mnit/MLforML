@@ -23,6 +23,21 @@ from sklearn.feature_selection import f_regression
 from sklearn.metrics import matthews_corrcoef
 from scipy.stats.stats import pearsonr
 
+class MLforML():
+    def __init__(self, test_size = 0.30, cross_val = False, N_population):
+        self.test_size = test_size
+        self.cross_val = cross_val
+        self.N_population = N_population
+
+    def get_indiv(self, data):
+        gene = []
+        gene.append(randint(0,4))
+        gene.append(randint(0,4))
+        gene.append(randint(0,4))
+        return gene
+
+
+
 # apply Regression
 def build_models(predictors, responses, modelNo):
     if(modelNo==0):
@@ -37,6 +52,7 @@ def build_models(predictors, responses, modelNo):
         # lasso Regression
         model = linear_model.MultiTaskLassoCV(eps=0.001, n_alphas=100, alphas=(0.1,0.1,10));
         modelName = "Lasso Regression";
+
     model.fit(predictors, responses);
     predictions = model.predict(predictors);
     Result = {};
