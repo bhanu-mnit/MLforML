@@ -61,6 +61,41 @@ class MLforML():
         Result['Corr'] = pearsonr(predictions,responses)[0][0];
         return Result;
 
+    def feature_selection_tech(predictors, responses, test_predictors, selectFeatTech):
+        if(selectFeatTech==0):
+            t=int(predictors.shape[1]*0.40);
+            t=40;
+            model = SelectKBest(chi2, k=t).fit(predictors, responses);
+            predictors_new = model.transform(predictors);
+            predictors_test_new = model.transform(test_predictors);
+            indices = model.get_support(indices=True);
+        if(selectFeatTech==1):
+            randomized_logistic = RandomizedLogisticRegression();
+            model = randomized_logistic.fit(predictors, responses);
+            predictors_new = model.transform(predictors);
+            predictors_test_new = model.transform(test_predictors);
+            indices = model.get_support(indices=True);
+        return predictors_new, predictors_test_new, indices;
+
+    def feature_selection_regression(predictors, responses, test_predictors, selectFeatTech):
+        if(selectFeatTech==0):        
+            chk = int(predictors.shape[1]*0.40);
+            # have fixed the value of how many features are to be selected as of now.
+            model = SelectKBest(f_regression, k=25);
+            model = model.fit(predictors, responses[0]);
+            predictors_new = model.transform(predictors);
+            predictors_test_new = model.transform(test_predictors);
+            indices = model.get_support(indices=True);
+            print "SelectKBest -> "+str(len(indices));
+        if(selectFeatTech==1):
+            model = RandomizedLasso(alpha='aic', scaling=0.3, sample_fraction=0.60, n_resampling=200, selection_threshold=0.15);
+            model = model.fit(predictors, responses[0]);
+            predictors_new = model.transform(predictors);
+            predictors_test_new = model.transform(test_predictors);
+            indices = model.get_support(indices=True);
+            print "Randomized Lasso -> "+str(len(indices));
+        return predictors_new, predictors_test_new, indices;
+
 
     if __name__ == "__main__":
     	predictors = pd.read_csv('predictors.csv');
